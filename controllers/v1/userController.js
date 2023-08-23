@@ -6,7 +6,7 @@ const { _sr } = require('../../helpers/serverResponses')
 const fs = require('fs')
 const sharp = require('sharp')
 const { sendMail, sendSms } = require('../../helpers/otp')
-const { iranCities, globalCountries } = require('../../helpers/countries')
+const { iranCities } = require('../../helpers/countries')
 const { res200, res201, res401, res403, res404, res422, res500, checkValidations } = require('../../helpers/statusCodes')
 const { isPhoneNumberValid, checkNationalCode, generateRandomDigits } = require('../../helpers/controllersHelperFunctions')
 
@@ -144,9 +144,16 @@ module.exports.updatePassword = [
             .notEmpty().withMessage(_sr['fa'].required.password)
             .bail()
             .custom(async (value, { req }) => {
-                let user = await User.findOne(req.user)
-                if (!user.comparePassword(value))
-                    throw new Error(_sr[req.lang].not_found.current_password)
+                const user = await User.findOne(req.user);
+                if (!user) {
+                    throw new Error(_sr[req.lang].not_found.current_password);
+                }
+                if (!user.comparePassword || typeof user.comparePassword !== 'function') {
+                    throw new Error('comparePassword method is missing or not a function');
+                }
+                if (user.comparePassword.bind(user)(value)) {
+                    throw new Error(_sr[req.lang].not_found.current_password);
+                }
                 return true
             }),
         body('new_password')

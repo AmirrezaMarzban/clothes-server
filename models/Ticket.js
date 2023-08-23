@@ -1,25 +1,3 @@
-// const mongoose = require('mongoose')
-// const Schema = mongoose.Schema;
-// const mongoosePaginate = require('mongoose-paginate-v2');
-
-// const TicketSchema = Schema({
-//     title: { type: String, required: true }, //subject
-//     body: String,
-//     creator: { type: mongoose.ObjectId, ref: 'User' },
-//     assignee: { type: mongoose.ObjectId, ref: 'User' },
-//     parent: { type: mongoose.ObjectId, ref: 'Ticket' },
-//     status: {
-//         type: String,
-//         enum: ['open', 'in progress', 'closed'],
-//         default: 'open'
-//     }
-// });
-
-
-// TicketSchema.plugin(mongoosePaginate);
-
-// module.exports = mongoose.model('Ticket', TicketSchema)
-
 const mongoose = require('mongoose')
 const mongoosePaginate = require('mongoose-paginate-v2');
 

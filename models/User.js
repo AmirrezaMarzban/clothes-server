@@ -7,12 +7,8 @@ function profile(img) {
     if (img) return '/uploads/images/user/' + img
 }
 
-function idImages(img) {
-    if (img) return '/uploads/images/user/id/' + img
-}
-
 const UserSchema = Schema({
-    scope: { type: Array, default: ['user'] },    //owner, admin, user
+    scope: { type: Array, default: ['user'] },    //admin, user
     firstName: { type: String, required: true },
     lastName: { type: String, required: true },
     email: { type: String, unique: true, required: true },
@@ -26,7 +22,6 @@ const UserSchema = Schema({
     gender: { type: Boolean, required: true }, // 1 male, 0 female
     token: { type: String, default: null },
     profilepic: { type: String, default: null, get: profile },
-    id_images: Array,
     active: { type: Boolean, default: true },
     registration_done: { type: Boolean, default: false },
     mobile_email_confirmation_done: { type: Boolean, default: false }, // mobile or email confirmation depends on country must be done

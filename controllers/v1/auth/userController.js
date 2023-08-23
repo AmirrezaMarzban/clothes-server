@@ -138,8 +138,8 @@ module.exports.normalRegisterProcess = [
             await User.create(tUser)
             // send sms with SMS Api panel code
             let code = generateRandomDigits(6)
-            let message = `به فروشگاه آنلاین خوش آمدید. کد فعالسازی: ${code} لغو 11`
-            sendSms(mobile, message)
+            // let message = `به فروشگاه آنلاین خوش آمدید. کد فعالسازی: ${code} لغو 11`
+            sendSms(mobile, code)
             await Otp.create({ username: mobile, code: code })
             return res201(res, _sr[req.lang].response.activation_code)
         } catch (e) {
@@ -227,7 +227,7 @@ module.exports.forgetPassword = [
         try {
             const forget = await Forget.findOne({ username: req.body.username })
             const user = await User.findOne({ $or: [{ email: req.body.username }, { mobile: req.body.username }] })
-            if (!user || user.mobile_email_confirmation_done)
+            if (!user || !user.mobile_email_confirmation_done || !user.registration_done)
                 return res404(res, _sr[req.lang].not_found.user_id)
             if (!forget) {         // check forget for user is expired
                 let code = generateRandomDigits(8)

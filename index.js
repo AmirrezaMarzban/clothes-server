@@ -5,7 +5,7 @@ const fileUpload = require('express-fileupload')
 const express = require('express')
 const cookieParser = require('cookie-parser')
 const app = express()
-const port = process.env.PORT || 3000
+const port = process.env.PORT || 80
 
 ///////// global variable
 global._ = require('lodash');
